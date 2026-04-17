@@ -243,3 +243,15 @@ body {
         font-size: 1.5rem;
     }
 }
+
+.beschikbaar {
+    color: green;
+}
+
+.uitgeleend {
+    color: red;
+}
+
+.in-reparatie {
+    color: orange;
+}

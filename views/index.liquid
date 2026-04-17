@@ -13,12 +13,14 @@
           <a href="/instrument/{{ forloop.index }}" class="instrument-link">
             <p>{{ instrument.name }}</p>
             <p>
-              {% if instrument.status.name %}
-                {{ instrument.status.name }}
-              {% elsif instrument.status %}
-                {{ instrument.status }}
+              {% if instrument.status == "Beschikbaar" %}
+                <span class="beschikbaar">{{ instrument.status }}</span>
+              {% elsif instrument.status == "Uitgeleend" %}
+                <span class="uitgeleend">{{ instrument.status }}</span>
+              {% elsif instrument.status == "In Reparatie" %}
+                <span class="in-reparatie">{{ instrument.status }}</span>
               {% else %}
-                Beschikbaar
+                <span>Beschikbaar</span>
               {% endif %}
             </p>
           </a>
