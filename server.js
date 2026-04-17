@@ -14,7 +14,7 @@ import { Liquid } from 'liquidjs';
 async function haalInstrumentenOp(zoekterm) {
   let apiUrl = 'https://fdnd-agency.directus.app/items/preludefonds_instruments'
   if (zoekterm) {
-    apiUrl += `?filter[name][_contains]=${zoekterm}`
+    apiUrl += `?filter[name][_icontains]=${zoekterm}`
   }
   
   const apiResponse = await fetch(apiUrl)
