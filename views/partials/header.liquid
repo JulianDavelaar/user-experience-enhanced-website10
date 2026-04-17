@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <title>{{ title }}</title>
+  </head>
+
+  <body>
+    <header class="header">
+        <a href="/" class="logo">
+          {% render 'partials/cool.logo.svg' %}
+        </a>
+
+        <nav class="nav">
+          <a href="/instrument/uitlenen" class="link">Uitlenen</a>
+          <span>|</span>
+          <a href="/instrument/innemen" class="link">Innemen</a>
+          <span>|</span>
+          <a href="/instrument/toevoegen" class="link">Toevoegen</a>
+        </nav>
+
+        <form class="zoeken" action="/" method="get">
+          <input id="zoeken" name="zoeken" type="search" placeholder="Instrument Zoeken">
+          <button type="submit">Zoek</button>
+        </form>
+    </header>

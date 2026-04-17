@@ -1,46 +1,3 @@
-# Enhanced Website
-
-## Wrap-Up sprint
-Laatste dingen afmaken, Sprint Review voorbereiden.
-
-## Wrap-up
-In de wrap-up ga je de Sprint Review voorbereiden. Wat ga je aan de oprachtgever presenteren? Hoe ga je dat doen? En waar wil je feedback op van de opdrachtgever?
-
-### Sprint review voorbereiden
-Eerst ga je met je team met studenten die dezelfde opdracht hebben de Sprint Review voorbereiden. Ga met elkaar aan tafel zitten. Laat eerst aan elkaar zien wat je hebt gemaakt deze sprint en aan welke vragen of feedback van de opdachtgever je hebt gewerkt. Bedenk daarna hoe jullie dit gaan presenteren, en bedenk een volgorde van onderwerpen.
-
-Het proces van briefing en sprint reviews gaat over communiceren met de opdrachtgever (en je team). 
-
-<!--
-Laat zien hoe je een vraag van de opdrachtgever vertaalt naar een ontwerp vraag. Houd bij hoe je hieraan werkt in een issue en presenteer in de README je ontwerpkeuzes van het eindresultaat. Maak tot slot duidelijk wat de opdrachtgever hiervan vindt.
--->
-
-### Readme schrijven
-Schrijf daarna een nette Readme, waarin je laat zien wat je hebt gedaan. In de Readme laat je het eindresultaat zien en verantwoord je je ontwerpkeuzes...
-
-
-
-<!-- 
-Studenten helpen elkaar: Het team van Julia de sprint review voorbereiding van andere teams bespreken
-
-Deze keer goed nadenk over wat je van de opdrachtgever wil weten. 
-Daar moet je presentatie over gaan.
-
-Check hoe ze hier Communiceren voor kunnen gebruiken. Zoals de herkansingsopdracht van Sascha e.a.
-
-
-wrap up
-Communiceren help de opdrachtgever. Wat ging je deze sprint doen? Hoe ver bennje gekomen? Wat ga je laten zien? Hoe krijg je feedback?
-
-
-Retro
-Vragenlijst?
-Complexere frontend code met CSS?
-Complexere frontend code met JS? Fetch?
--->
-
-<!--
-
 # Interactive functionality
 
 ## Wrap-up
@@ -68,9 +25,6 @@ Bij *kenmerken* staat welke technieken zijn gebruikt en hoe. Hier leg je in grot
 
 Aan de hand van jouw uitleg moet iemand anders in grote lijnen de code kunnen begrijpen. (misschien kan je je code ook nog opschonen, nette witruimte en comments toevoegen, niet gebruikte routes weghalen, ...)
 
--->
-
-
 <!--
 #### Screenflow met UI-stack states
 Maak een goed uitgewerkte screenflow met de verschillende states die je hebt ontworpen, ideal, empty, loading, succes en misschien een error state.
@@ -84,8 +38,6 @@ Toon de URL's, de Request en hoe de Response werkt in jouw code: Welke Routes wo
 Toon hoe de client-side scripting werkt, hoe wordt de data gepost met JavaScipt? En wat gebeurt er daarna? 
 -->
 
-
-<!--
 ### Installatie
 Omdat je een NodeJs project, met Express en Liquid hebt gemaakt, beschrijf je in de Readme ook hoe iemand anders het project kan installeren. Bij *installatie* staat stap-voor-stap beschreven hoe je de development omgeving moet inrichten om aan de repository te kunnen werken. Hoe leg je aan iemand anders uit dat je bijvoorbeeld NPM hebt gebruikt?
 
@@ -99,5 +51,3 @@ Bespreek met de groep wat je van plan bent aan de opdrachtgever te laten zien en
 👉 Bedenk met elkaar een logische volgorde voor het bespreken van jullie websites. Wie laat wat wanneer zien? Welke vragen hebben jullie? 
 
 👉 Voeg aan de readme van het project op de [Agency](https://github.com/fdnd-agency) de links toe van de repo's en live links. Zo kan de opdrachtgever het werk makkelijk terugvinden en bekijken.
-
--->

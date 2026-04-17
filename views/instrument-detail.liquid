@@ -1,0 +1,44 @@
+{% render 'partials/header.liquid' %}
+
+<main class="pagina detail-pagina">
+  <section class="detail">
+    {% comment %} {% if instrument.photo %} {% endcomment %}
+      <img src="{{ instrument.photo }}" alt="{{ instrument.name }}" class="detail-foto">
+    {% comment %} {% else %}
+      <div class="detail-foto leeg"></div>
+    {% endif %} {% endcomment %}
+
+    <div class="detail-info">
+      <h1>{{ instrument.name }}</h1>
+      <p>
+        Status:
+        {% if instrument.status.name %}
+          {{ instrument.status.name }}
+        {% elsif instrument.status %}
+          {{ instrument.status }}
+        {% else %}
+          Beschikbaar
+        {% endif %}
+      </p>
+    </div>
+  </section>
+
+  <form action="/instrument/{{ instrument.id }}/uitlenen" method="post">
+    <section class="opmerking">
+      <label for="huurder">Huurder:</label>
+      <input id="huurder" name="huurder" type="text">
+
+      <label for="accessoires">Accessoires:</label>
+      <input id="accessoires" name="accessoires" type="text">
+
+      <label for="opmerking">Opmerkingen:</label>
+      <textarea id="opmerking" name="opmerking">{{ details }}</textarea>
+    </section>
+
+    <div class="detail-acties">
+          <button type="submit">Uitlenen</button>
+    </div>
+  </form>
+</main>
+
+{% render 'partials/footer.liquid'%}
