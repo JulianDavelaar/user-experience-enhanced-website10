@@ -3,7 +3,7 @@
 <main class="pagina detail-pagina">
   <section class="detail">
     {% comment %} {% if instrument.photo %} {% endcomment %}
-      <img src="{{ instrument.photo }}" alt="{{ instrument.name }}" class="detail-foto">
+      <img src="https://fdnd-agency.directus.app/assets/{{ instrument.photo }}" alt="{{ instrument.name }}" class="detail-foto">
     {% comment %} {% else %}
       <div class="detail-foto leeg"></div>
     {% endif %} {% endcomment %}
