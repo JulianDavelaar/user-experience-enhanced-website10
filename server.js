@@ -11,12 +11,18 @@ import { Liquid } from 'liquidjs';
 //   return apiResponseJSON.data
 // }
 
-async function haalInstrumentenOp(zoekterm) {
+async function haalInstrumentenOp(zoekterm, status) {
   let apiUrl = 'https://fdnd-agency.directus.app/items/preludefonds_instruments'
+  
   if (zoekterm) {
     apiUrl += `?filter[name][_icontains]=${zoekterm}`
   }
   
+  if (status) {
+    apiUrl += zoekterm ? '&' : '?'
+    apiUrl += `filter[status][_eq]=${status}`
+  }
+
   const apiResponse = await fetch(apiUrl)
   const apiResponseJSON = await apiResponse.json()
   return apiResponseJSON.data
@@ -48,7 +54,8 @@ console.log('Let op: Er zijn nog geen routes. Voeg hier dus eerst jouw GET en PO
 // homepage
 app.get('/', async (request, response) => {
    const zoekterm = request.query.zoeken
-   const instruments = await haalInstrumentenOp(zoekterm)
+   const status = request.query.status
+   const instruments = await haalInstrumentenOp(zoekterm, status)
 
    response.render('index', {
    instruments: instruments
