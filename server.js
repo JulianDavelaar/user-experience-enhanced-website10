@@ -5,8 +5,19 @@ import express from 'express'
 // Importeer de Liquid package (ook als dependency via npm geïnstalleerd)
 import { Liquid } from 'liquidjs';
 
-async function haalInstrumentenOp() {
-  const apiResponse = await fetch('https://fdnd-agency.directus.app/items/preludefonds_instruments')
+// async function haalInstrumentenOp() {
+//   const apiResponse = await fetch('https://fdnd-agency.directus.app/items/preludefonds_instruments')
+//   const apiResponseJSON = await apiResponse.json()
+//   return apiResponseJSON.data
+// }
+
+async function haalInstrumentenOp(zoekterm) {
+  let apiUrl = 'https://fdnd-agency.directus.app/items/preludefonds_instruments'
+  if (zoekterm) {
+    apiUrl += `?filter[name][_contains]=${zoekterm}`
+  }
+  
+  const apiResponse = await fetch(apiUrl)
   const apiResponseJSON = await apiResponse.json()
   return apiResponseJSON.data
 }
@@ -36,7 +47,8 @@ console.log('Let op: Er zijn nog geen routes. Voeg hier dus eerst jouw GET en PO
 
 // homepage
 app.get('/', async (request, response) => {
-   const instruments = await haalInstrumentenOp()
+   const zoekterm = request.query.zoeken
+   const instruments = await haalInstrumentenOp(zoekterm)
 
    response.render('index', {
    instruments: instruments
