@@ -8,9 +8,9 @@
       <div class="detail-foto leeg"></div>
     {% endif %} {% endcomment %}
 
-    <div class="detail-info">
+    <div class="instrument-info">
       <h1>{{ instrument.name }}</h1>
-      <p>
+      <p id="instrument-status">
         Status:
         {% if instrument.status.name %}
           {{ instrument.status.name }}
@@ -35,10 +35,59 @@
       <textarea id="opmerking" name="opmerking">{{ details }}</textarea>
     </section>
 
-    <div class="detail-acties">
-          <button type="submit">Uitlenen</button>
-    </div>
+    <button class="knop-uitlenen" type="submit">Uitlenen<span class="loading"></span></button>
+ 
   </form>
 </main>
 
 {% render 'partials/footer.liquid'%}
+
+
+
+<script>
+  
+
+// loading & succes state
+const detailForm = document.querySelector("form")
+const buttonForm = document.querySelector("form button")
+const instrumentStatus = document.querySelector("#instrument-status")
+
+detailForm.addEventListener("submit", async function(event) {
+  //voorkom de standaard submit van de browser
+  event.preventDefault()
+
+  buttonForm.classList.add("loading")
+  buttonForm.textContent = "loading..."
+
+  let formData = new FormData(detailForm);
+
+  // Data fetchen:
+  // Doe een fetch naar de server net als hoe browsers dit normaal doen
+  // gebruik daarvoor het action en method attribuut van het formulier
+  // stuur de formulierelementen mee
+  const response = await fetch(detailForm.action, {
+    method: detailForm.method, //POST dus
+    body: new URLSearchParams(detailForm) // << dit moet omdat server.js ander niet met de formulier data kan werken
+  })
+
+  // Data verwerken: 
+  // De server geeft data terug als het posten goed gaat
+  const responseData = await response.text()
+
+  // Normaal zou de browser die HTML parsen en weergeven,
+  // parse de nieuwe HTML en maak hiervan een nieuw Document Object Model in het geheugen
+  const parser = new DOMParser()
+  const responseDOM = parser.parseFromString(responseData, 'text/html')
+
+  //Zoek in die nieuwe HTML DOM onze nieuwe UI state op, die we via liquid hebben klaargezet
+  const newState = responseDOM.querySelector('#instrument-status')
+
+  //Data van de server toevoegen aan de DOM,
+  //overschrijf de HTML met de nieuwe HTML
+  scores.innerHTML = newState.innerHTML
+
+
+
+})
+
+</script>

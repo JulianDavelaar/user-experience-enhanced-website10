@@ -11,6 +11,8 @@ import { Liquid } from 'liquidjs';
 //   return apiResponseJSON.data
 // }
 
+// dit is voor de filterknoppen bovenaan
+
 async function haalInstrumentenOp(zoekterm, status) {
   let apiUrl = 'https://fdnd-agency.directus.app/items/preludefonds_instruments'
   
@@ -170,3 +172,4 @@ app.post('/instrument/:id/uitlenen', async function(request, response){
   // Stuur de browser daarna weer naar de homepage
   response.redirect(303, '/')
 })
+
