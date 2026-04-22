@@ -3,7 +3,7 @@
 <main class="pagina detail-pagina">
   <section class="detail">
     {% comment %} {% if instrument.photo %} {% endcomment %}
-      <img src="https://fdnd-agency.directus.app/assets/{{ instrument.photo }}" alt="{{ instrument.name }}" class="detail-foto">
+      <img src="https://fdnd-agency.directus.app/assets/{{ instrument.photo | width_url: width: '473x314' }}"  alt="{{ instrument.name }}" class="detail-foto" type="image/avif">
     {% comment %} {% else %}
       <div class="detail-foto leeg"></div>
     {% endif %} {% endcomment %}
@@ -84,7 +84,7 @@ detailForm.addEventListener("submit", async function(event) {
 
   //Data van de server toevoegen aan de DOM,
   //overschrijf de HTML met de nieuwe HTML
-  scores.innerHTML = newState.innerHTML
+  instrumentStatus.innerHTML = newState.innerHTML
 
 
 

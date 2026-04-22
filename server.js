@@ -157,7 +157,7 @@ app.listen(app.get('port'), function () {
 
 
 app.post('/instrument/:id/uitlenen', async function(request, response){
-  const id = request.params.id
+  const id = Number(request.params.id)
   await fetch(`https://fdnd-agency.directus.app/items/preludefonds_instruments/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({
@@ -169,7 +169,13 @@ app.post('/instrument/:id/uitlenen', async function(request, response){
     }
   });
 
-  // Stuur de browser daarna weer naar de homepage
-  response.redirect(303, '/')
+
+
+const instruments = await haalInstrumentenOp()
+const instrument = instruments.find(function(item) {
+  return item.id ===id
 })
 
+  // Stuur de browser daarna weer naar de homepage
+  response.render('instrument-detail', { instrument })
+})
