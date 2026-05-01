@@ -23,7 +23,7 @@
     </div>
   </section>
 
-  <form action="/instrument/{{ instrument.id }}/uitlenen" method="post">
+  <form class="uitlenen-form" action="/instrument/{{ instrument.id }}/uitlenen" method="post">
     <section class="opmerking">
       <label for="huurder">Huurder:</label>
       <input id="huurder" name="huurder" type="text">
@@ -35,7 +35,10 @@
       <textarea id="opmerking" name="opmerking">{{ details }}</textarea>
     </section>
 
-    <button class="knop-uitlenen" type="submit">Uitlenen<span class="loading"></span></button>
+    <button class="knop-uitlenen" type="submit">
+      <span class="knop-tekst"> Uitlenen </span>
+      <span class="spinner"></span>
+    </button>
  
   </form>
 </main>
@@ -48,16 +51,23 @@
   
 
 // loading & succes state
-const detailForm = document.querySelector("form")
-const buttonForm = document.querySelector("form button")
+const detailForm = document.querySelector(".uitlenen-form")
+const buttonForm = detailForm.querySelector("button")
+const buttonTekst = buttonForm.querySelector(".knop-tekst")
 const instrumentStatus = document.querySelector("#instrument-status")
 
 detailForm.addEventListener("submit", async function(event) {
   //voorkom de standaard submit van de browser
   event.preventDefault()
+  console.log("1. submit gestart")
+
 
   buttonForm.classList.add("loading")
-  buttonForm.textContent = "loading..."
+  buttonTekst.textContent = "laden..."
+  console.log("2. loading state actief")
+
+
+    await new Promise(r => setTimeout(r, 2000))
 
   let formData = new FormData(detailForm);
 
@@ -67,8 +77,10 @@ detailForm.addEventListener("submit", async function(event) {
   // stuur de formulierelementen mee
   const response = await fetch(detailForm.action, {
     method: detailForm.method, //POST dus
-    body: new URLSearchParams(detailForm) // << dit moet omdat server.js ander niet met de formulier data kan werken
+    body: new URLSearchParams(formData) // << dit moet omdat server.js ander niet met de formulier data kan werken
   })
+
+      console.log("3. fetch klaar")
 
   // Data verwerken: 
   // De server geeft data terug als het posten goed gaat
@@ -87,6 +99,19 @@ detailForm.addEventListener("submit", async function(event) {
   instrumentStatus.innerHTML = newState.innerHTML
 
 
+  //loading state verwijderen na fetch
+  buttonForm.classList.remove("loading")
+  buttonTekst.textContent = "Uitlenen"  //tekst terug 
+
+  // succes state laten zien
+  const bestaandeMelding = document.querySelector(".succes-melding")
+  if (bestaandeMelding) bestaandeMelding.remove()
+
+  const succesMelding = document.createElement("p")
+  succesMelding.textContent = "instrument succesvol uitgeleend!"
+  succesMelding.classList.add("succes-melding")
+  detailForm.insertAdjacentElement("afterend", succesMelding)
+    console.log("4. succes melding toegevoegd")
 
 })
 
