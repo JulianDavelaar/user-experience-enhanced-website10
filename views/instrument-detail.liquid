@@ -35,7 +35,7 @@
       <textarea id="opmerking" name="opmerking">{{ details }}</textarea>
     </section>
 
-    <button class="knop-uitlenen" type="submit">
+    <button class="knop-uitlenen" type="submit" {% if instrument.status == "Uitgeleend" or instrument.status.name == "Uitgeleend" %}disabled{% endif %}>
       <span class="knop-tekst"> Uitlenen </span>
       <span class="spinner"></span>
     </button>
@@ -65,9 +65,6 @@ detailForm.addEventListener("submit", async function(event) {
   buttonForm.classList.add("loading")
   buttonTekst.textContent = "laden..."
   console.log("2. loading state actief")
-
-
-    await new Promise(r => setTimeout(r, 2000))
 
   let formData = new FormData(detailForm);
 
@@ -113,6 +110,7 @@ detailForm.addEventListener("submit", async function(event) {
   detailForm.insertAdjacentElement("afterend", succesMelding)
     console.log("4. succes melding toegevoegd")
 
+  buttonForm.disabled = true
 })
 
 </script>
