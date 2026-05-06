@@ -32,14 +32,16 @@
       <input id="accessoires" name="accessoires" type="text">
 
       <label for="opmerking">Opmerkingen:</label>
-      <textarea id="opmerking" name="opmerking">{{ details }}</textarea>
+      <div class="opmerking-grid">
+       <textarea id="opmerking" name="opmerking">{{ details }}</textarea>
     </section>
 
     <button class="knop-uitlenen" type="submit" {% if instrument.status == "Uitgeleend" or instrument.status.name == "Uitgeleend" %}disabled{% endif %}>
       <span class="knop-tekst"> Uitlenen </span>
       <span class="spinner"></span>
+      <span class="checkmark"></span>
     </button>
- 
+   </div>
   </form>
 </main>
 
@@ -51,54 +53,54 @@
   
 
 // loading & succes state
-const detailForm = document.querySelector(".uitlenen-form")
-const buttonForm = detailForm.querySelector("button")
-const buttonTekst = buttonForm.querySelector(".knop-tekst")
-const instrumentStatus = document.querySelector("#instrument-status")
+const uitleenForm = document.querySelector(".uitlenen-form")
+const uitleenKnop = uitleenForm.querySelector("button")
+const knopTekst = uitleenKnop.querySelector(".knop-tekst")
+const statusElement = document.querySelector("#instrument-status")
 
-detailForm.addEventListener("submit", async function(event) {
+uitleenForm.addEventListener("submit", async function(event) {
   //voorkom de standaard submit van de browser
   event.preventDefault()
   console.log("1. submit gestart")
 
 
-  buttonForm.classList.add("loading")
-  buttonTekst.textContent = "laden..."
+  uitleenKnop.classList.add("loading")
+  knopTekst.textContent = "laden..."
   console.log("2. loading state actief")
 
-  let formData = new FormData(detailForm);
+  let formulierData = new FormData(uitleenForm);
 
   // Data fetchen:
   // Doe een fetch naar de server net als hoe browsers dit normaal doen
   // gebruik daarvoor het action en method attribuut van het formulier
   // stuur de formulierelementen mee
-  const response = await fetch(detailForm.action, {
-    method: detailForm.method, //POST dus
-    body: new URLSearchParams(formData) // << dit moet omdat server.js ander niet met de formulier data kan werken
+  const serverAntwoord = await fetch(uitleenForm.action, {
+    method: uitleenForm.method, //POST dus
+    body: new URLSearchParams(formulierData) // << dit moet omdat server.js ander niet met de formulier data kan werken
   })
 
       console.log("3. fetch klaar")
 
   // Data verwerken: 
   // De server geeft data terug als het posten goed gaat
-  const responseData = await response.text()
+  const antwoordHTML = await serverAntwoord.text()
 
   // Normaal zou de browser die HTML parsen en weergeven,
   // parse de nieuwe HTML en maak hiervan een nieuw Document Object Model in het geheugen
   const parser = new DOMParser()
-  const responseDOM = parser.parseFromString(responseData, 'text/html')
+  const nieuweDOM = parser.parseFromString(antwoordHTML, 'text/html')
 
   //Zoek in die nieuwe HTML DOM onze nieuwe UI state op, die we via liquid hebben klaargezet
-  const newState = responseDOM.querySelector('#instrument-status')
+  const nieuweStatus = nieuweDOM.querySelector('#instrument-status')
 
   //Data van de server toevoegen aan de DOM,
   //overschrijf de HTML met de nieuwe HTML
-  instrumentStatus.innerHTML = newState.innerHTML
+  statusElement.innerHTML = nieuweStatus.innerHTML
 
 
   //loading state verwijderen na fetch
-  buttonForm.classList.remove("loading")
-  buttonTekst.textContent = "Uitlenen"  //tekst terug 
+  uitleenKnop.classList.remove("loading")
+  knopTekst.textContent = "Uitlenen"  //tekst terug 
 
   // succes state laten zien
   const bestaandeMelding = document.querySelector(".succes-melding")
@@ -107,10 +109,10 @@ detailForm.addEventListener("submit", async function(event) {
   const succesMelding = document.createElement("p")
   succesMelding.textContent = "instrument succesvol uitgeleend!"
   succesMelding.classList.add("succes-melding")
-  detailForm.insertAdjacentElement("afterend", succesMelding)
+  uitleenForm.insertAdjacentElement("afterend", succesMelding)
     console.log("4. succes melding toegevoegd")
 
-  buttonForm.disabled = true
+  uitleenKnop.disabled = true
 })
 
 </script>
