@@ -54,15 +54,15 @@ app.set('views', './views')
 console.log('Let op: Er zijn nog geen routes. Voeg hier dus eerst jouw GET en POST routes toe.')
 
 // homepage
-app.get('/', async (request, response) => {
-   const zoekterm = request.query.zoeken
-   const status = request.query.status
-   const instruments = await haalInstrumentenOp(zoekterm, status)
+// app.get('/', async (request, response) => {
+//    const zoekterm = request.query.zoeken
+//    const status = request.query.status
+//    const instruments = await haalInstrumentenOp(zoekterm, status)
 
-   response.render('index', {
-   instruments: instruments
-  })
-})
+//    response.render('index', {
+//    instruments: instruments
+//   })
+// })
 
 // detailpagina instrument
 app.get('/instrument/:id', async (request, response) => {
