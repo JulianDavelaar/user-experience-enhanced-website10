@@ -299,4 +299,8 @@ button.loading .spinner {
 button.loading {
   opacity: .7;
   cursor: wait;
+.empty-state {
+    padding: 2rem;
+    text-align: center;
+    color: #666;
 }

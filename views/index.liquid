@@ -12,7 +12,6 @@
         <li class="rij">
           <a href="/instrument/{{ forloop.index }}" class="instrument-link">
             <p>{{ instrument.name }}</p>
-            <p>
               {% if instrument.status == "Beschikbaar" %}
                 <span class="beschikbaar">{{ instrument.status }}</span>
               {% elsif instrument.status == "Uitgeleend" %}
@@ -25,7 +24,11 @@
             </p>
           </a>
         </li>
-      {% endfor %}
+      {% else %}
+        <li class="empty-state">
+          <p>Geen instrumenten gevonden</p>
+        </li>
+        {% endfor %}
     </ul>
   </section>
 </main>
