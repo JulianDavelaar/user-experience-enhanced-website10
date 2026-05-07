@@ -72,27 +72,54 @@ app.get('/instrument/:id', async (request, response) => {
 
 app.post('/instrument/:id/uitlenen', async function(request, response){
   const id = Number(request.params.id)
-  await fetch(`${baseURL}/${id}`, {
+
+    await fetch(`${baseURL}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({
-    status: 'Uitgeleend'
+      status: 'Uitgeleend',
+      student_name: request.body.huurder,
+      details: request.body.opmerking
     }),
-
+    
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
-  });
+  })
+
+ 
+  const instruments = await haalInstrumenten()
+  const instrument = instruments.find(function(item) {
+    return item.id === id
+  })
+
+  response.render('instrument-detail', { instrument })
+})
+
+app.post('/instrument/:id/innemen', async function(request, response){
+  const id = Number(request.params.id)
+
+  await fetch(`${baseURL}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      status: 'Beschikbaar',
+      student_name: null,
+      details: null
+    }),
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+
+  const instruments = await haalInstrumenten()
+  const instrument = instruments.find(function(item) {
+    return item.id === id
+  })
+
+  response.render('instrument-detail', { instrument })
+})
 
 app.set('port', process.env.PORT || 8000)
 
 app.listen(app.get('port'), function () {
-})
-
-
-const instruments = await haalInstrumenten()
-const instrument = instruments.find(function(item) {
-  return item.id ===id
-})
-
-  response.render('instrument-detail', { instrument })
+  console.log(`Server draait op http://localhost:${app.get('port')}/`)
 })

@@ -2,11 +2,8 @@
 
 <main class="pagina detail-pagina">
   <section class="detail">
-    {% comment %} {% if instrument.photo %} {% endcomment %}
       <img src="https://fdnd-agency.directus.app/assets/{{ instrument.photo | width_url: width: '473x314' }}"  alt="{{ instrument.name }}" class="detail-foto" type="image/avif">
-    {% comment %} {% else %}
-      <div class="detail-foto leeg"></div>
-    {% endif %} {% endcomment %}
+  
 
     <div class="instrument-info">
       <h1>{{ instrument.name }}</h1>
@@ -20,10 +17,14 @@
           Beschikbaar
         {% endif %}
       </p>
+      {% if instrument.student_name %}
+      <p>Huurder: {{ instrument.student_name }}</p>
+      {% endif %}
     </div>
   </section>
 
   <form class="uitlenen-form" action="/instrument/{{ instrument.id }}/uitlenen" method="post">
+   
     <section class="opmerking">
       <label for="huurder">Huurder:</label>
       <input id="huurder" name="huurder" type="text" required>
@@ -33,11 +34,20 @@
 
       <label for="opmerking">Opmerkingen:</label>
       <div class="opmerking-grid">
-       <textarea id="opmerking" name="opmerking">{{ details }}</textarea>
+       <textarea id="opmerking" name="opmerking">{{ instrument.details }}</textarea>
     </section>
 
     <button class="knop-uitlenen" type="submit" {% if instrument.status == "Uitgeleend" or instrument.status.name == "Uitgeleend" %}disabled{% endif %}>
       <span class="knop-tekst"> Uitlenen </span>
+      <span class="spinner"></span>
+      <span class="checkmark"></span>
+    </button>
+
+    <button class="knop-uitlenen" type="submit" 
+      formaction="/instrument/{{ instrument.id }}/innemen"
+      formnovalidate
+      {% if instrument.status == "Beschikbaar" or instrument.status.name == "Beschikbaar" %}disabled{% endif %}>
+      <span class="knop-tekst">Innemen</span>
       <span class="spinner"></span>
       <span class="checkmark"></span>
     </button>
@@ -54,19 +64,19 @@
 
 // loading & succes state
 const uitleenForm = document.querySelector(".uitlenen-form")
-const uitleenKnop = uitleenForm.querySelector("button")
-const knopTekst = uitleenKnop.querySelector(".knop-tekst")
 const statusElement = document.querySelector("#instrument-status")
 
 uitleenForm.addEventListener("submit", async function(event) {
   //voorkom de standaard submit van de browser
   event.preventDefault()
-  console.log("1. submit gestart")
+
+  const geklikteKnop = event.submitter
+  const knopTekstElement = geklikteKnop.querySelector(".knop-tekst")
+  const submitURL = geklikteKnop.formAction || uitleenForm.action
 
 
-  uitleenKnop.classList.add("loading")
-  knopTekst.textContent = "laden..."
-  console.log("2. loading state actief")
+  geklikteKnop.classList.add("loading")
+  knopTekstElement.textContent = "laden..."
 
   let formulierData = new FormData(uitleenForm);
 
@@ -74,12 +84,11 @@ uitleenForm.addEventListener("submit", async function(event) {
   // Doe een fetch naar de server net als hoe browsers dit normaal doen
   // gebruik daarvoor het action en method attribuut van het formulier
   // stuur de formulierelementen mee
-  const serverAntwoord = await fetch(uitleenForm.action, {
+  const serverAntwoord = await fetch(submitURL, {
     method: uitleenForm.method, //POST dus
     body: new URLSearchParams(formulierData) // << dit moet omdat server.js ander niet met de formulier data kan werken
   })
 
-      console.log("3. fetch klaar")
 
   // Data verwerken: 
   // De server geeft data terug als het posten goed gaat
@@ -99,20 +108,22 @@ uitleenForm.addEventListener("submit", async function(event) {
 
 
   //loading state verwijderen na fetch
-  uitleenKnop.classList.remove("loading")
-  knopTekst.textContent = "Uitlenen"  //tekst terug 
+  geklikteKnop.classList.remove("loading")
 
   // succes state laten zien
   const bestaandeMelding = document.querySelector(".succes-melding")
   if (bestaandeMelding) bestaandeMelding.remove()
 
+  const isInnemen = submitURL.includes('innemen')
   const succesMelding = document.createElement("p")
-  succesMelding.textContent = "instrument succesvol uitgeleend!"
+  succesMelding.textContent = isInnemen
+  ? 'instrument succesvol ingenomen'
+  : 'instrument succesvol uitgeleend'
   succesMelding.classList.add("succes-melding")
   uitleenForm.insertAdjacentElement("afterend", succesMelding)
-    console.log("4. succes melding toegevoegd")
 
-  uitleenKnop.disabled = true
+  uitleenForm.querySelectorAll("button").forEach(knop => knop.disabled = false)
+  geklikteKnop.disabled = true
 })
 
 </script>
