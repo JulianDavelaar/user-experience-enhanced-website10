@@ -72,7 +72,7 @@ uitleenForm.addEventListener("submit", async function(event) {
 
   const geklikteKnop = event.submitter
   const knopTekstElement = geklikteKnop.querySelector(".knop-tekst")
-  const submitURL = geklikteKnop.formAction || uitleenForm.action
+  const submitURL = geklikteKnop.getAttribute('formaction') || uitleenForm.action
 
 
   geklikteKnop.classList.add("loading")
